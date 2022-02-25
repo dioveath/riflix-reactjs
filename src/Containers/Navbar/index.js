@@ -1,13 +1,11 @@
 import React from 'react';
 import { NavbarContainer, NavList, NavItem } from './NavbarElements.js';
 import ProfileBar from '../ProfileBar';
-import { Marginer } from '../../Components/Marginer';
 
 const Navbar = () => {
   return (
     <NavbarContainer>
       <ProfileBar color="whitesmoke"/>
-      {/* <Marginer horizontal="30px"/> */}
       <NavList>
         <NavItem>
           Movies
