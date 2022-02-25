@@ -11,6 +11,12 @@ const TopContainer = styled.div`
 display: grid;
 grid-template-columns: 8fr 2fr;
 padding: 0px 80px;
+
+@media only screen and (max-width: 600px) { 
+display: flex;
+flex-wrap: wrap-reverse;
+}
+
 `;
 
 const HomePage = (props) => {

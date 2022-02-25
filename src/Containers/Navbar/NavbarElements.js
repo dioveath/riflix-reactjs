@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const NavbarContainer = styled.div`
+width: 100%;
 background-color: #445599;
 display: flex;
 flex-direction: row-reverse;
@@ -23,7 +24,11 @@ padding: 15px 10px;
 text-transform: uppercase;
 color: white;
 height: 100%;
+background-color: ${props => props.active ? "#554499" : "00000000"};
+
 &:hover { 
 background-color: #99aaee;
 }
+
+
 `;

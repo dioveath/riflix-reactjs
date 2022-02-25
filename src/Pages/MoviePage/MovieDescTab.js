@@ -2,12 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Marginer } from '../../Components/Marginer';
-import YoutubeEmbed from '../../Components/YoutubeEmbed';
+import MovieCard from '../../Components/MovieCard';
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 
 const Container = styled.div`
+min-width: 300px;
+width: 600px;
+max-width: 600px;
 `;
 
 const TabGroup = styled.div`
@@ -72,6 +75,13 @@ const Screenshot = ({ imgSrc, legend }) => {
 };
 
 
+const CastDetailsContainer = styled.div`
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+`;
+
+
 function renderTabSwitch(tabIndex){
   switch(tabIndex){
   case 0:
@@ -112,7 +122,16 @@ function renderTabSwitch(tabIndex){
   case 1:
     {
       return (
-        <p> Cast </p>
+        <CastDetailsContainer>
+               <MovieCard
+            imageSrc="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSoKvv4TLPiFZ6W4D4qniKG0C1o6wzNmQ3VuhvanJiX6cy79_7C"
+            height="200px"
+            title="Morgan Freeman"/>
+          <MovieCard
+            imageSrc="https:encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSjFRz89po6eYCYCN4w7wtx6JrINpcLPWaPZiQCSnJMumFy_tTq"
+            height="200px"
+            title="Tim Robbins"/>
+        </CastDetailsContainer>
       );
     }
     break;
@@ -133,6 +152,7 @@ const MovieDescTab = (props) => {
         <Tab onClick={ () => { setIndex(0); } } active={index == 0 ? true : false}> Details </Tab>
         <Tab onClick={ () => { setIndex(1); } } active={index == 1 ? true : false}> Cast </Tab>
       </TabGroup>
+      <Marginer vertical="20px"/>
       { renderTabSwitch(index) }
     </Container>
   );

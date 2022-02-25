@@ -3,9 +3,16 @@ import './App.css';
 import HomePage from "./Pages/HomePage";
 import MoviePage from "./Pages/MoviePage";
 
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 function App() {
   return (
-    <HomePage/>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={ <HomePage/> }/>
+        <Route path="/movie/:movieId" element={<MoviePage/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

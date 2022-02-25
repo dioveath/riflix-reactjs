@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 const CardContainer = styled.div`
 position: relative;
-height: 300px;
-width: auto;
+height: ${ props => props.height !== undefined ? props.height : "300px"};
+width: ${ props => props.width !== undefined ? props.width : "auto"};
 background-color: gray;
 transition: all 0.1s ease-in-out;
 
@@ -39,9 +39,9 @@ letter-spacing: 0.05rem;
 
 const MovieCard = (props) => {
   return (
-    <CardContainer>
+    <CardContainer width={ props.width } height={props.height}> 
       <CardImage src={props.imageSrc}/>
-      <CardTitle> { props.title }</CardTitle>
+      <CardTitle fontSize={ props.fontSize }> { props.title }</CardTitle>
     </CardContainer>
   );
 };
