@@ -33,7 +33,6 @@ background-color: #44559944;
 `;
 
 
-
 const MovieTitle = styled.h3`
 color: #445599;
 `;

@@ -23,7 +23,7 @@ const Navbar = () => {
             Movies
           </NavItem>
         </Link>
-        <Link to="/movie/something" style = { linkStyle }>
+        <Link to="/movie/movieId" style = { linkStyle }>
           <NavItem active={ location.pathname === "/movie/something" ? true : false}>
             Watch List
           </NavItem>
