@@ -1,3 +1,3 @@
-const apiKey = "k_bnx10qz1";
+const apiKey = "k_a666oruo";
 
 export { apiKey };

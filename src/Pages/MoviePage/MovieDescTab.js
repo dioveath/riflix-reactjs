@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { Marginer } from '../../Components/Marginer';
 import MovieCard from '../../Components/MovieCard';
 
+import { MovieContext } from './MovieContext.js';
+
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const Container = styled.div`
 min-width: 300px;
@@ -81,57 +85,78 @@ gap: 10px;
 `;
 
 
-function renderTabSwitch(tabIndex){
+function isNullOrUndefined(v){
+  return (v === undefined || v === null);
+}
+
+const MovieDetailsTab = () => {
+  let movie = useContext(MovieContext);
+  if(movie == undefined) return <Skeleton count={10}/>;
+
+  return (
+    <MovieDetailsContainer>
+      <MovieTitle> { !isNullOrUndefined(movie.title) ? movie.title : <Skeleton/> } </MovieTitle>
+      <Marginer/>
+      <MovieCategory>
+        <MovieSmallText> { !isNullOrUndefined(movie.genres) ? movie.genres : <Skeleton/> } </MovieSmallText>
+        <Marginer/>
+        <MovieSmallText> { !isNullOrUndefined(movie.runtimeStr) ? movie.runtimeStr : <Skeleton/> } </MovieSmallText>
+      </MovieCategory>
+      <Marginer/>
+      <MovieSummary>
+        <MovieSummaryText>
+          { !isNullOrUndefined(movie.plot) ? movie.plot : <Skeleton/> }
+        </MovieSummaryText>
+        <Marginer/>
+      </MovieSummary>
+      <Marginer/>
+      <MovieTitle> Screenshots </MovieTitle>
+      <Carousel dynamicHeight={true} autoPlay={true} infiniteLoop={true}>
+        {
+          !isNullOrUndefined(movie.images) ?  !isNullOrUndefined(movie.images.items) ? movie.images.items.slice(0, 10).map((ss) => {
+            return (
+              <div key={ss.title}>
+                <img src={ss.image}/>
+                <p className="legend"> {ss.title } </p>
+              </div>
+            );
+          }) : <Skeleton height={200}/> : <Skeleton height={200}/>
+        }
+      </Carousel>
+    </MovieDetailsContainer>
+  );  
+};
+
+const CastDetailsTab = () => {
+  let movie = useContext(MovieContext);
+  if(isNullOrUndefined(movie)) return <Skeleton count={10}/>;  
+  return (
+    <CastDetailsContainer>
+      {
+        !isNullOrUndefined(movie.actorList) ? movie.actorList.slice(0, 10).map((actor) => {
+          return <MovieCard
+                   imageSrc={actor.image}
+                   height="200px"
+                   title={actor.name}
+                   key={actor.id}
+                 />;
+        }) : <Skeleton count={5}/>
+      }
+    </CastDetailsContainer>
+  );
+};
+
+
+function RenderTabSwitch({ tabIndex }){
+  let movie = useContext(MovieContext);
+
   switch(tabIndex){
   case 0:
-    {
-      return (
-        <MovieDetailsContainer>
-          <MovieTitle> Shawshank Redemption </MovieTitle>
-          <Marginer/>
-          <MovieCategory>
-            <MovieSmallText> Action </MovieSmallText>
-            <Marginer/>
-            <MovieSmallText> 2hr </MovieSmallText>
-          </MovieCategory>
-          <Marginer/>
-          <MovieSummary>
-            <MovieSummaryText>
-              Andy Dufresne, a successful banker, is arrested for the murders of his wife and her lover, and is sentenced to life imprisonment at the Shawshank prison. He becomes the most unconventional prisoner.
-            </MovieSummaryText>
-            <Marginer/>
-          </MovieSummary>
-          <Marginer/>
-          <MovieTitle> Screenshots </MovieTitle>
-          <Carousel dynamicHeight={false} autoPlay={true} infiniteLoop={true}>
-            <div>
-              <img src="https://wallpapercave.com/wp/wp2014257.jpg" />
-            </div>
-            <div>
-              <img src="https://wallpapercave.com/wp/wp2014258.jpg" />
-            </div>
-            <div>
-              <img src="https://wallpapercave.com/dwp1x/wp2014273.jpg" />
-            </div>                        
-          </Carousel>
-        </MovieDetailsContainer>
-      );
-    }
+    return <MovieDetailsTab/>;
     break;
   case 1:
     {
-      return (
-        <CastDetailsContainer>
-               <MovieCard
-            imageSrc="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSoKvv4TLPiFZ6W4D4qniKG0C1o6wzNmQ3VuhvanJiX6cy79_7C"
-            height="200px"
-            title="Morgan Freeman"/>
-          <MovieCard
-            imageSrc="https:encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSjFRz89po6eYCYCN4w7wtx6JrINpcLPWaPZiQCSnJMumFy_tTq"
-            height="200px"
-            title="Tim Robbins"/>
-        </CastDetailsContainer>
-      );
+      return <CastDetailsTab/>;
     }
     break;
   }
@@ -152,7 +177,7 @@ const MovieDescTab = (props) => {
         <Tab onClick={ () => { setIndex(1); } } active={index == 1 ? true : false}> Cast </Tab>
       </TabGroup>
       <Marginer vertical="20px"/>
-      { renderTabSwitch(index) }
+      <RenderTabSwitch tabIndex={index}/>
     </Container>
   );
 

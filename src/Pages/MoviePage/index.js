@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import styled from 'styled-components';
-
 
 import SearchBar from '../../Containers/SearchBar';
 import Navbar from '../../Containers/Navbar';
 import MovieDetails from './MovieDetails';
 import { Marginer } from '../../Components/Marginer';
 
-
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
-
-import { Provider } from 'react-redux';
-import { movieStore } from './redux.js';
 import { apiKey } from './credentials.js';
+import { MovieContext } from './MovieContext.js';
 
 
 const MoviePage = (props) => {
@@ -22,18 +18,22 @@ const MoviePage = (props) => {
   let splitted = pathname.split('/');
   let movieId = splitted[splitted.length-1];
 
-
-  // let res = await axios.get(`https:imdb-api.com/en/API/Title/${apiKey}/${movieId}/FullCast,Posters,Images,Trailer,`);
+  const [movie, setMovie] = useState({ id: 0 });
+  
+  useEffect(async () => {
+    let res = await axios.get(`https:imdb-api.com/en/API/Title/${apiKey}/${movieId}/FullCast,Posters,Images,Trailer,`);
+    setMovie(res.data);
+    console.log(res.data);
+  }, [movie.id]);
 
 
   return (
     <>
       <Navbar/>
-      {/* <SearchBar/> */}
       <Marginer vertical="20px"/>
-      <Provider store={movieStore}>
+      <MovieContext.Provider value={movie}>
         <MovieDetails/>
-      </Provider>
+      </MovieContext.Provider>
     </>
   );
 
