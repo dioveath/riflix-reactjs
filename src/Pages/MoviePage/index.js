@@ -1,7 +1,5 @@
-import React, { useState, useEffect, createContext } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
 
-import SearchBar from '../../Containers/SearchBar';
 import Navbar from '../../Containers/Navbar';
 import MovieDetails from './MovieDetails';
 import { Marginer } from '../../Components/Marginer';
@@ -18,13 +16,15 @@ const MoviePage = (props) => {
   let splitted = pathname.split('/');
   let movieId = splitted[splitted.length-1];
 
-  const [movie, setMovie] = useState({ id: 0 });
+  const [movie, setMovie] = useState({ id: 0});
   
-  useEffect(async () => {
-    let res = await axios.get(`https:imdb-api.com/en/API/Title/${apiKey}/${movieId}/FullCast,Posters,Images,Trailer,`);
-    setMovie(res.data);
-    console.log(res.data);
-  }, [movie.id]);
+  useEffect(() => {
+    (async () => {
+      let res = await axios.get(`https://imdb-api.com/en/API/Title/${apiKey}/${movieId}/FullCast,Posters,Images,Trailer,`);
+      setMovie(res.data);
+      console.log(res.data);      
+    })();
+  }, [movieId]);
 
 
   return (

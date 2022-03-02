@@ -26,8 +26,8 @@ padding: 10px 20px;
 font-size: 13px;
 font-weight: 600;
 color: #445599;
-// background-color: ${props => props.active == true ? "#445599" : "#44559933"};
-border-bottom: ${props => props.active == true ? "2px" : "0px"} solid ${ props => props.active !== undefined ? "#445599" : "gray"};
+// background-color: ${props => props.active === true ? "#445599" : "#44559933"};
+border-bottom: ${props => props.active === true ? "2px" : "0px"} solid ${ props => props.active !== undefined ? "#445599" : "gray"};
 text-transform: uppercase;
 
 &:hover { 
@@ -71,7 +71,7 @@ const ScreenshotContainer = styled.div`
 const Screenshot = ({ imgSrc, legend }) => {
   return (
     <ScreenshotContainer>
-      <img src={imgSrc}/>
+      <img src={imgSrc} alt={legend}/>
       <p className="legend"> { legend }</p>
     </ScreenshotContainer>
   );
@@ -91,7 +91,7 @@ function isNullOrUndefined(v){
 
 const MovieDetailsTab = () => {
   let movie = useContext(MovieContext);
-  if(movie == undefined) return <Skeleton count={10}/>;
+  if(movie === undefined) return <Skeleton count={10}/>;
 
   return (
     <MovieDetailsContainer>
@@ -115,10 +115,7 @@ const MovieDetailsTab = () => {
         {
           !isNullOrUndefined(movie.images) ?  !isNullOrUndefined(movie.images.items) ? movie.images.items.slice(0, 10).map((ss) => {
             return (
-              <div key={ss.title}>
-                <img src={ss.image}/>
-                <p className="legend"> {ss.title } </p>
-              </div>
+              <Screenshot imgSrc={ss.image} legend={ss.title} key={ss.title}/>
             );
           }) : <Skeleton height={200}/> : <Skeleton height={200}/>
         }
@@ -148,21 +145,19 @@ const CastDetailsTab = () => {
 
 
 function RenderTabSwitch({ tabIndex }){
-  let movie = useContext(MovieContext);
-
   switch(tabIndex){
   case 0:
     return <MovieDetailsTab/>;
-    break;
   case 1:
     {
       return <CastDetailsTab/>;
     }
-    break;
+  default:
+    return (
+      <p> No Tab </p>
+    );    
   }
-  return (
-    <p> No Tab </p>
-  );
+
 }
 
 
@@ -173,8 +168,8 @@ const MovieDescTab = (props) => {
   return (
     <Container>
       <TabGroup>
-        <Tab onClick={ () => { setIndex(0); } } active={index == 0 ? true : false}> Details </Tab>
-        <Tab onClick={ () => { setIndex(1); } } active={index == 1 ? true : false}> Cast </Tab>
+        <Tab onClick={ () => { setIndex(0); } } active={index === 0 ? true : false}> Details </Tab>
+        <Tab onClick={ () => { setIndex(1); } } active={index === 1 ? true : false}> Cast </Tab>
       </TabGroup>
       <Marginer vertical="20px"/>
       <RenderTabSwitch tabIndex={index}/>

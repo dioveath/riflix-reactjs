@@ -2,9 +2,6 @@ import React from 'react';
 import { NavbarContainer, NavList, NavItem } from './NavbarElements.js';
 import ProfileBar from '../ProfileBar';
 
-import MoviePage from '../../Pages/MoviePage';
-import HomePage from '../../Pages/HomePage';
-
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {

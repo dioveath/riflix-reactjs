@@ -8,7 +8,7 @@ const ProfileBarContainer = styled.div`
 const ProfileBar = (props) => {
   return (
     <ProfileBarContainer>
-      <FaUser color={props.color == undefined ? "white" : props.color }/>
+      <FaUser color={props.color === undefined ? "white" : props.color }/>
     </ProfileBarContainer>
   );
 };
